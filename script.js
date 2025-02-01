@@ -1,38 +1,55 @@
 let scale = 1;
 let nonClickCount = 0;
 
-document.getElementById('nonButton').addEventListener('click', function() {
-    const yesButton = document.getElementById('yesbutton');
-    const mainText = document.querySelector('.main_text');
-    const randomWidthIncrease = Math.floor(Math.random() * 300) + 100;
-    const randomHeightIncrease = Math.floor(Math.random() * 150) + 50;
+const nonButton = document.getElementById('nonButton');
+const convincingMessages = [
+    "Tu est sure bebou?",
+    "S'il te plaît, dit oui!",
+    "Allez tu sais que tu le veux!",
+    "Dis pas non!",
+    "Donne-moi une chance!"
+];
 
-    if (Math.random() > 0.5) {
-        yesButton.style.width = `${yesButton.offsetWidth + randomWidthIncrease}px`;
-    } else {
-        yesButton.style.height = `${yesButton.offsetHeight + randomHeightIncrease}px`;
-    }
-    yesButton.style.fontSize = `${parseInt(window.getComputedStyle(yesButton).fontSize) + 10}px`;
-    yesButton.style.transition = 'width 1s, height 1s, font-size 1s';
+if (nonButton) {
+    nonButton.addEventListener('click', function() {
+        const yesButton = document.getElementById('yesbutton');
+        const mainText = document.querySelector('.main_text');
+        const randomWidthIncrease = Math.floor(Math.random() * 300) + 100;
+        const randomHeightIncrease = Math.floor(Math.random() * 300) + 50;
 
-    nonClickCount++;
-    if (nonClickCount > 7) {
-        yesButton.style.width = '100vw';
-        yesButton.style.height = '100vh';
-        yesButton.style.fontSize = '5em';
+        if (Math.random() > 0.5) {
+            yesButton.style.width = `${yesButton.offsetWidth + randomWidthIncrease}px`;
+        } else {
+            yesButton.style.height = `${yesButton.offsetHeight + randomHeightIncrease}px`;
+        }
+        yesButton.style.fontSize = `${parseInt(window.getComputedStyle(yesButton).fontSize) + 10}px`;
         yesButton.style.transition = 'width 1s, height 1s, font-size 1s';
-        mainText.style.zIndex = '-1';
-    }
-});
 
-document.getElementById('yesbutton').addEventListener('click', function() {
-    const button = this;
-    scale += 0.9;
+        nonClickCount++;
+        if (nonClickCount > 3) {
+            yesButton.style.width = '100vw';
+            yesButton.style.height = '100vh';
+            yesButton.style.fontSize = '5em';
+            yesButton.style.transition = 'width 1s, height 1s, font-size 1s';
+            mainText.style.zIndex = '-1';
+        }
 
-    button.style.transform = `scale(${scale})`;
-    button.style.transition = 'transform 0.5s';
+        if (nonClickCount >= 4) {
+            mainText.style.zIndex = '-1';
+        }
 
-    setTimeout(() => {
+        // Change the main text to a more convincing message
+        if (nonClickCount < convincingMessages.length) {
+            mainText.textContent = convincingMessages[nonClickCount];
+        } else {
+            mainText.textContent = convincingMessages[convincingMessages.length - 1];
+        }
+    });
+}
+
+const yesButton = document.getElementById('yesbutton');
+if (yesButton) {
+    yesButton.addEventListener('click', function() {
         document.body.innerHTML = '';
 
         const message = document.createElement('h1');
@@ -56,5 +73,5 @@ document.getElementById('yesbutton').addEventListener('click', function() {
             image.style.width = '300px';
             document.body.appendChild(image);
         }, 4000);
-    }, 500);
-});
+    });
+}
