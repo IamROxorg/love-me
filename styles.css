@@ -7,6 +7,7 @@
     text-align: center;
     margin-top: 20px;
 }
+
 .gentil_bouton {
     background-color: #4CAF50;
     color: white;
@@ -14,6 +15,7 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
 .mechant_bouton {
     background-color: #b90e0e;
     color: white;
@@ -22,6 +24,7 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
 body {
     font-family: Arial, sans-serif;
     background-color: #fb89ff;
@@ -65,5 +68,43 @@ body {
     }
     to {
         opacity: 1;
+    }
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .gentil_bouton, .mechant_bouton {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    .main_text, .love_message, .sad_message {
+        font-size: 1.5em;
+    }
+
+    .boutons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .gentil_bouton, .mechant_bouton {
+        width: 80%;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .gentil_bouton, .mechant_bouton {
+        padding: 5px 10px;
+        font-size: 0.8em;
+    }
+
+    .main_text, .love_message, .sad_message {
+        font-size: 1.2em;
+    }
+
+    .gentil_bouton, .mechant_bouton {
+        width: 90%;
+        margin: 5px 0;
     }
 }
