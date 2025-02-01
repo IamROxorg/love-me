@@ -39,6 +39,7 @@ document.getElementById('yesbutton').addEventListener('click', function() {
         message.className = 'love_message typing';
         message.innerText = 'Félicitation tu est mariée a moi! ❤️';
         message.style.textAlign = 'right';
+        message.style.marginRight = '100px'; // Move text more to the left
         document.body.appendChild(message);
 
         setTimeout(() => {
@@ -52,6 +53,7 @@ document.getElementById('yesbutton').addEventListener('click', function() {
             image.style.left = '0';
             image.style.top = '50%';
             image.style.transform = 'translateY(-50%)';
+            image.style.width = '300px';
             document.body.appendChild(image);
         }, 4000);
     }, 500);
