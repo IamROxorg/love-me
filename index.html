@@ -4,14 +4,221 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MARIE MOI</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fb89ff;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .main_text {
+            color: #b90e0e;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            transition: font-size 0.3s ease;
+        }
+
+        .boutons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .gentil_bouton,
+        .mechant_bouton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        .mechant_bouton {
+            background-color: #b90e0e;
+        }
+
+        .gentil_bouton:active,
+        .mechant_bouton:active {
+            transform: scale(0.95);
+        }
+
+        .love_message {
+            font-size: 2em;
+            color: #b90e0e;
+            margin-top: 20px;
+            animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 0.15em solid #b90e0e;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #b90e0e; }
+        }
+
+        .sad_message {
+            font-size: 2em;
+            color: #b90e0e;
+            margin-top: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            .gentil_bouton, .mechant_bouton {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+
+            .main_text {
+                font-size: 2em;
+            }
+
+            .love_message {
+                font-size: 1.5em;
+            }
+
+            .image-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .image-container img {
+                width: 250px;
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gentil_bouton, .mechant_bouton {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+
+            .main_text {
+                font-size: 1.5em;
+            }
+
+            .love_message {
+                font-size: 1.2em;
+            }
+
+            .image-container img {
+                width: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1 class="main_text">Tu veut etre ma copine?</h1>
-    <div class="boutons">
-        <button class="gentil_bouton" id="yesbutton">Oui</button>
-        <button class="mechant_bouton" id="nonButton">NON</button>
+    <div class="container">
+        <h1 class="main_text">Tu veux être ma copine ?</h1>
+        <div class="boutons">
+            <button class="gentil_bouton" id="yesbutton">Oui</button>
+            <button class="mechant_bouton" id="nonButton">NON</button>
+        </div>
     </div>
-    <script src="script.js"></script>
+
+    <script>
+        let scale = 1;
+        let nonClickCount = 0;
+        const nonButton = document.getElementById('nonButton');
+        const yesButton = document.getElementById('yesbutton');
+        const mainText = document.querySelector('.main_text');
+        const convincingMessages = [
+            "Tu es sûr bébé ?",
+            "S'il te plaît, dis oui !",
+            "Allez, tu sais que tu le veux !",
+            "Dis pas non !",
+            "Donne-moi une chance !"
+        ];
+
+        nonButton.addEventListener('click', function() {
+            const randomWidthIncrease = Math.floor(Math.random() * 300) + 100;
+            const randomHeightIncrease = Math.floor(Math.random() * 300) + 50;
+
+            if (Math.random() > 0.5) {
+                yesButton.style.width = `${yesButton.offsetWidth + randomWidthIncrease}px`;
+            } else {
+                yesButton.style.height = `${yesButton.offsetHeight + randomHeightIncrease}px`;
+            }
+
+            yesButton.style.fontSize = `${parseInt(window.getComputedStyle(yesButton).fontSize) + 10}px`;
+            yesButton.style.transition = 'width 1s, height 1s, font-size 1s';
+
+            nonClickCount++;
+            if (nonClickCount > 3) {
+                // Hide the "NON" button after 3 clicks
+                nonButton.style.display = 'none';
+                yesButton.style.width = '100vw';
+                yesButton.style.height = '100vh';
+                yesButton.style.fontSize = '5em';
+                yesButton.style.transition = 'width 1s, height 1s, font-size 1s';
+                mainText.style.zIndex = '-1';
+            }
+
+            if (nonClickCount >= 4) {
+                mainText.style.zIndex = '-1';
+            }
+
+            // Change the main text to a more convincing message
+            if (nonClickCount < convincingMessages.length) {
+                mainText.textContent = convincingMessages[nonClickCount];
+            } else {
+                mainText.textContent = convincingMessages[convincingMessages.length - 1];
+            }
+        });
+
+        yesButton.addEventListener('click', function() {
+            document.body.innerHTML = '';
+
+            const message = document.createElement('h1');
+            message.className = 'love_message';
+            message.innerText = 'Félicitation, tu es mariée à moi ! ❤️';
+            document.body.appendChild(message);
+
+            setTimeout(() => {
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'image-container';
+                
+                const image = document.createElement('img');
+                image.src = 'img_mariage.png'; // Ensure this image exists
+                image.alt = 'Mariage';
+                image.style.animation = 'fadeIn 2s ease-in-out';
+                image.style.width = '300px';
+
+                imageContainer.appendChild(image);
+                document.body.appendChild(imageContainer);
+            }, 4000);
+        });
+    </script>
 </body>
 </html>
